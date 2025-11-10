@@ -4,7 +4,9 @@ import PostsData from "../data/PostsData";
 const PostPage = () => {
   const { id } = useParams();
   const postId = parseInt(id || "-1", 10);
-  const post = PostsData.find((p) => p.id === postId);
+  const postsList = localStorage.getItem('postslist')
+  const parsedList = postsList ? JSON.parse(postsList) : PostsData
+  const post = parsedList.find((p: { id: number; }) => p.id===postId);
 
   if (!post) return <p>Post not found!</p>;
 
