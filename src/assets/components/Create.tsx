@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import axios from "axios";
 import type { PostsStructure } from "../interfaces/PostsStructure";
 import PostsData from "../data/PostsData";
-import Post from "./Post";
+import { useNavigate } from "react-router-dom"
 
 interface UserName {
   title: string;
@@ -23,10 +23,11 @@ interface UserResult {
 
 
 function Create(){
-    
+    const navigate = useNavigate()
     const [title,setTitle] = useState("")
     const [content,setContent] = useState("")
     const [banner,setBanner] = useState("")
+    const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
     const [posts, setPosts] = useState<PostsStructure[]>(() => {
         const saved = localStorage.getItem('postslist');
         return saved ? JSON.parse(saved) : PostsData;
@@ -40,7 +41,11 @@ function Create(){
         try{
             e.preventDefault()
             if (title.length >8 || content.length>50 || banner){
+                if (banner && !urlPattern.test(banner)) throw new Error("Please enter a valid image URL")
+                const duplicate = posts.find(p => p.title === title && p.content === content);
+                if (duplicate) throw new Error("A post with the same title and content already exists");
                 const userInfo = await axios.get('https://randomuser.me/api/?inc=name,picture')
+                if (!userInfo) throw new Error("Failed to fetch user information");
                 const user: UserResult = userInfo.data.results[0];
                 const username = `${user.name.first}_${user.name.last}`
                 const avatar = `${user.picture.thumbnail}`
@@ -55,12 +60,13 @@ function Create(){
                 setPosts(updatedPosts)
                 localStorage.setItem('postslist',JSON.stringify(updatedPosts))
                 // alert(JSON.stringify(newPost))
-                alert('Posted succesfully')
-                const finalList = localStorage.getItem("postslist")
-                console.log(finalList ? JSON.parse(finalList).length : 0)
+                // alert('Posted succesfully')
+                navigate("/")
+                // const finalList = localStorage.getItem("postslist")
+                // console.log(finalList ? JSON.parse(finalList).length : 0)
             }
             else{
-                throw new Error("title must be more than 8 characters");
+                throw new Error("Please check values in all the fields");
             }
         }catch(e:any){
             alert(e.message)
@@ -68,18 +74,23 @@ function Create(){
     }
 
     return(
-        <div className="page-alignment">
-                <form className="border border-red p-5 bg-gray-300 mt-10 rounded-xl ">
-                    <p className="text-3xl font-lg">Title</p>
-                    <input type="text" placeholder="Title goes here" value={title} onChange={async (e)=> await setTitle(e.target.value)} className="border w-full p-1 rounded-lg mt-2 mb-5" /> <br/>
-                    <p className="text-3xl font-lg">Content</p>
-                    <input type="text"  placeholder="Write your thoughts here..." value={content} onChange={async (e)=> await setContent(e.target.value)} className="border w-full p-1 rounded-lg mt-2 mb-5"/> <br/>
-                    <p className="text-3xl font-lg">Photo url</p>
-                    <input type="text" placeholder="Paste your image address" value={banner} onChange={async (e)=> await setBanner(e.target.value)} className="border w-full p-1 rounded-lg mt-2 mb-5"/> <br />
-                    <div className="flex flex-row justify-around">
-                        <a href="/"><input type="submit" onClick={handleSubmit} className="text-lg border hover:cursor-pointer mt-5 bg-blue-300 py-2 px-5 rounded-xl"/></a>
+        <div className="w-[50%] mx-auto mb-22">
+                <form className="p-8 bg-blue-100 mt-10 rounded shadow-xl flex flex-row">
+                    <div className="w-1/3">
+                        <p className="text-5xl font-lg font-medium leading-none">What is <br />your <br />story <br />today?</p>
                     </div>
-                </form>
+                    <div className="w-2/3 p-5 ml-10 bg-white rounded shadow">
+                        <p className="text-xl font-lg font-semibold">Title</p>
+                        <input type="text" required placeholder="Title goes here" value={title} onChange={async (e)=> await setTitle(e.target.value)} className="border w-full p-1 rounded mt-1 mb-2 border-2 border-gray-300 outline-none focus:border-blue-400 focus:bg-blue-100" /> <br/>
+                        <p className="text-xl font-lg font-semibold">Content</p>
+                        <textarea required placeholder="Write your thoughts here..." value={content} onChange={async (e)=> await setContent(e.target.value)} className="border w-full p-1 rounded mt-1 mb-2 h-30 border-2 border-gray-300 outline-none focus:border-blue-400 focus:bg-blue-100"/> <br/>
+                        <p className="text-xl font-lg font-semibold">Photo url</p>
+                        <input type="text" required placeholder="Paste your image address" value={banner} onChange={async (e)=> await setBanner(e.target.value)} className="border w-full p-1 rounded mt-1 mb-2 border-2 border-gray-300 outline-none focus:border-blue-400 focus:bg-blue-100"/> <br />
+                        <div className="flex flex-row justify-around">
+                            <input type="submit" onClick={handleSubmit} className="text-lg border-2 border-blue-300 bg-blue-300 py-1 mt-3 mb-1 px-10 rounded transition duration-200 hover:cursor-pointer hover:bg-blue-400"/>
+                        </div>
+                    </div>
+                </form> 
         </div>
     )
 }

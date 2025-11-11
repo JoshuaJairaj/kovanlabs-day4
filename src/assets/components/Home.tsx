@@ -16,7 +16,7 @@ function Home(){
   }, []);
     console.log(posts.length)
     return(
-        <div className="page-alignment">
+        <div className=" lg:w-[60%] mx-auto mb-20 md:w-[90%] sm:w-[100%]">
             {posts.map((post)=>(
                 <Post
                     id={post.id}

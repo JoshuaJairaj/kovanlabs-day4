@@ -1,6 +1,6 @@
 function About(){
     return(
-        <div className="page-alignment mt-10">
+        <div className=" w-[60%] mx-auto mt-10">
         <h1 className="text-3xl font-medium pb-4">About</h1>
         <p>
             Welcome to our blog app, a space where you can capture and share the happiest moments of your life. Post a photo along with a short paragraph to celebrate your achievements, joyful experiences, or everyday memories. It’s a simple and fun way to express yourself and preserve moments that matter.

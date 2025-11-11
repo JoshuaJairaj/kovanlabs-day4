@@ -20,7 +20,7 @@ const PostPage = () => {
       <p className="text-gray-500 mb-5">
         By {post.author} | {post.date}
       </p>
-      <p className="text-lg">{post.content}</p>
+      <p className="text-lg whitespace-pre-line">{post.content}</p>
     </div>
   );
 };
