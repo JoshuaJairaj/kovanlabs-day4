@@ -1,6 +1,6 @@
-import PostsData from "../data/PostsData";
-import Post from "./Post";
-import type { PostsStructure } from "../interfaces/PostsStructure";
+import PostsData from "../assets/data/PostsData";
+import Post from "../components/Post";
+import type { PostsStructure } from "../assets/types/Types";
 import { useEffect, useState } from "react";
 
 function Home(){
@@ -19,17 +19,7 @@ function Home(){
         <div className=" lg:w-[60%] mx-auto mb-20 md:w-[90%] sm:w-[100%]">
             {posts.map((post)=>(
                 <Post
-                    id={post.id}
-                    author={post.author}
-                    date={post.date}
-                    avatar={post.avatar}
-                    title={post.title}
-                    content={post.content}
-                    banner={post.banner}
-                    likeCount={post.likeCount}
-                    dislikeCount={post.dislikeCount}
-                    comments={post.comments}
-                    likeStatus={post.likeStatus}
+                    PostStructure={post}
                 ></Post>
             ))}
         </div>

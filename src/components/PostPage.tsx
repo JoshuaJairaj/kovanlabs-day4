@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import PostsData from "../data/PostsData";
+import PostsData from "../assets/data/PostsData";
 
 const PostPage = () => {
   const { id } = useParams();

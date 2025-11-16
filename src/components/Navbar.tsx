@@ -1,9 +1,5 @@
 import {BrowserRouter as Router,Routes,Route, Link, NavLink} from "react-router-dom";
-import Home from './Home';
-import Trending from './Trending';
-import Create from './Create';
-import About from './About';
-import PostPage from './PostPage';
+
 
 function Navbar(){
     return(
@@ -36,14 +32,6 @@ function Navbar(){
             </NavLink>
           </div>
         </nav>
-
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/trending" element={<Trending />} />
-              <Route path="/create" element={<Create />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/post/:id" element={<PostPage/>} />
-            </Routes>
         </div>
     )
 }

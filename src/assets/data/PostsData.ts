@@ -1,4 +1,4 @@
-import type { PostsStructure } from "../interfaces/PostsStructure";
+import type { PostsStructure } from "../types/Types";
 
 
 const PostsData: PostsStructure[] = [

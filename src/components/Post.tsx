@@ -2,27 +2,17 @@ import { Link } from "react-router-dom"
 import like from "/like.png"
 import liked from "/liked.png"
 import { useState } from "react"
-import star from "/star.png"
+import type { PostsStructure } from "../assets/types/Types"
 
-interface PostsStructure{
-    id: number
-    author: string,
-    date: string,
-    avatar: string,
-    title: string,
-    content: string,
-    banner: string,
-    likeCount: number,
-    dislikeCount: number,
-    comments: string[],
-    likeStatus: number
+interface PostsFormat{
+    PostStructure: PostsStructure
 }
 
 
-const Post: React.FC<PostsStructure> = ({id, author, date, avatar, title, content, banner, likeCount}) => {
+const Post: React.FC<PostsFormat> = ({PostStructure}) => {
 
     const [isLiked, setIsLiked] = useState(false);
-    const [likesCount, setLikesCount] = useState(likeCount);
+    const [likesCount, setLikesCount] = useState(PostStructure.likeCount);
 
     const toCamelCase = (str: string) => {
     return str
@@ -45,17 +35,17 @@ const Post: React.FC<PostsStructure> = ({id, author, date, avatar, title, conten
     return (
         <div className="flex flex-row mt-5 shadow-lg p-2 rounded-sm">
             <div className="w-3/5 flex flex-col pl-3">
-            <Link key={id} to={`/post/${id}`}>
+            <Link key={PostStructure.id} to={`/post/${PostStructure.id}`}>
             <div>
                 <div className="flex flex-row mt-5 items-center">
-                    <img className="aspect-1/1 h-[1.5rem] rounded-full" src={avatar} alt="avatar"/>
-                    <p className="mx-2">{author}</p>
+                    <img className="aspect-1/1 h-[1.5rem] rounded-full" src={PostStructure.avatar} alt="avatar"/>
+                    <p className="mx-2">{PostStructure.author}</p>
                     <p>|</p>
-                    <p className="text-gray-400 text-sm px-1 py-1">{date}</p>
+                    <p className="text-gray-400 text-sm px-1 py-1">{PostStructure.date}</p>
                 </div>
                 <div className="pr-2 mt-3 hover:cursor-pointer">
-                    <p className="text-2xl font-semibold pb-1">{toCamelCase(title)}</p>
-                    <p className="text-justify">{ content.length>180 ? content.substring(0,180)+"..." : content}</p>
+                    <p className="text-2xl font-semibold pb-1">{toCamelCase(PostStructure.title)}</p>
+                    <p className="text-justify">{ PostStructure.content.length>180 ? PostStructure.content.substring(0,180)+"..." : PostStructure.content}</p>
                 </div>
             </div>
             </Link>
@@ -64,7 +54,7 @@ const Post: React.FC<PostsStructure> = ({id, author, date, avatar, title, conten
                 <p className="text-sm">{likesCount}</p>
             </button>
             </div>
-            <div className="w-2/5"><img className="w-auto h-full aspect-4/3 p-2" src={banner}/></div>
+            <div className="w-2/5"><img className="w-auto h-full aspect-4/3 p-2" src={PostStructure.banner}/></div>
         </div>
     )
 }

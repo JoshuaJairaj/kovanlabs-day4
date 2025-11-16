@@ -1,25 +1,11 @@
 import { useEffect, useState, type FormEvent } from "react";
 import axios from "axios";
-import type { PostsStructure } from "../interfaces/PostsStructure";
-import PostsData from "../data/PostsData";
+import type { PostsStructure } from "../assets/types/Types";
+import PostsData from "../assets/data/PostsData";
 import { useNavigate } from "react-router-dom"
+import type { UserResult } from "../assets/types/Types";
+import missing from "/missing.jpg"
 
-interface UserName {
-  title: string;
-  first: string;
-  last: string;
-}
-
-interface UserPicture {
-  large: string;
-  medium: string;
-  thumbnail: string;
-}
-
-interface UserResult {
-  name: UserName;
-  picture: UserPicture;
-}
 
 
 function Create(){
@@ -80,11 +66,11 @@ function Create(){
                         <p className="text-5xl font-lg font-medium leading-none">What is <br />your <br />story <br />today?</p>
                     </div>
                     <div className="w-2/3 p-5 ml-10 bg-white rounded shadow">
-                        <p className="text-xl font-lg font-semibold">Title</p>
+                        <p className="input-boxes">Title</p>
                         <input type="text" required placeholder="Title goes here" value={title} onChange={async (e)=> await setTitle(e.target.value)} className="border w-full p-1 rounded mt-1 mb-2 border-2 border-gray-300 outline-none focus:border-blue-400 focus:bg-blue-100" /> <br/>
-                        <p className="text-xl font-lg font-semibold">Content</p>
+                        <p className="input-boxes">Content</p>
                         <textarea required placeholder="Write your thoughts here..." value={content} onChange={async (e)=> await setContent(e.target.value)} className="border w-full p-1 rounded mt-1 mb-2 h-30 border-2 border-gray-300 outline-none focus:border-blue-400 focus:bg-blue-100"/> <br/>
-                        <p className="text-xl font-lg font-semibold">Photo url</p>
+                        <p className="input-boxes">Photo url</p>
                         <input type="text" required placeholder="Paste your image address" value={banner} onChange={async (e)=> await setBanner(e.target.value)} className="border w-full p-1 rounded mt-1 mb-2 border-2 border-gray-300 outline-none focus:border-blue-400 focus:bg-blue-100"/> <br />
                         <div className="flex flex-row justify-around">
                             <input type="submit" onClick={handleSubmit} className="text-lg border-2 border-blue-300 bg-blue-300 py-1 mt-3 mb-1 px-10 rounded transition duration-200 hover:cursor-pointer hover:bg-blue-400"/>
